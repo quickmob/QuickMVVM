@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="@drawable/shape_bg1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ProgressBar
+            style="?android:progressBarStyleInverse"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:indeterminateTint="@color/c_FFFFFF"
+            android:indeterminateTintMode="src_atop" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{data}"
+            android:textColor="@color/c_FFFFFF"
+            android:textSize="13sp" />
+    </LinearLayout>
+</layout>
