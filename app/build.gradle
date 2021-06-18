@@ -27,17 +27,46 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.blankj:utilcodex:1.30.6'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    //mvvm
     implementation project(':mvvm')
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'org.greenrobot:eventbus:3.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+
+    //QuickHttp
     implementation 'com.github.quickmob:QuickHttp:latest.release'
     implementation 'com.squareup.okhttp3:okhttp:3.12.13'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.13'
+
+    //QuickImageLoader
+    implementation 'com.github.quickmob:QuickImageLoader:latest.release'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.12.0'
+
+    //QuickPictureSelector
+    implementation 'com.github.quickmob:QuickPictureSelector:latest.release'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.blankj:utilcodex:1.30.6'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+    //photoView
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    //LongImgView
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
+    //eventbus
+    implementation 'org.greenrobot:eventbus:3.2.0'
+    //utilcode
+    implementation('com.blankj:utilcodex:1.30.6') {
+        exclude group: 'com.google.code.gson'
+    }
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 }
