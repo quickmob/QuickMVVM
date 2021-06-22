@@ -8,8 +8,10 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.FloatRange;
+import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatDialog;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
@@ -33,18 +35,29 @@ public abstract class BaseDialog extends AppCompatDialog implements ILifecycleOb
      */
     protected FragmentActivity activity;
 
+    /**
+     * fragment对象
+     */
+    @Nullable
+    protected Fragment fragment;
+
     public BaseDialog(FragmentActivity activity) {
-        super(activity, R.style.BaseDialogTheme);
-        if (activity != null) {
-            this.activity = activity;
-            activity.getLifecycle().addObserver(this);//添加LifecycleObserver
-        }
+        this(activity, null, R.style.BaseDialogTheme);
     }
 
     public BaseDialog(FragmentActivity activity, @StyleRes int themeResId) {
+        this(activity, null, themeResId);
+    }
+
+    public BaseDialog(FragmentActivity activity, @Nullable Fragment fragment) {
+        this(activity, fragment, R.style.BaseDialogTheme);
+    }
+
+    public BaseDialog(FragmentActivity activity, @Nullable Fragment fragment, @StyleRes int themeResId) {
         super(activity, themeResId);
+        this.activity = activity;
+        this.fragment = fragment;
         if (activity != null) {
-            this.activity = activity;
             activity.getLifecycle().addObserver(this);//添加LifecycleObserver
         }
     }
