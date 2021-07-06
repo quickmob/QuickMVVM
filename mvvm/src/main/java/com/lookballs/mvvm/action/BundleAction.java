@@ -29,10 +29,10 @@ public interface BundleAction {
     }
 
     default long getLong(String name) {
-        return getLong(name, 0);
+        return getLong(name, 0L);
     }
 
-    default long getLong(String name, int defaultValue) {
+    default long getLong(String name, long defaultValue) {
         Bundle bundle = getBundle();
         if (bundle == null) {
             return defaultValue;
@@ -41,10 +41,10 @@ public interface BundleAction {
     }
 
     default float getFloat(String name) {
-        return getFloat(name, 0);
+        return getFloat(name, 0.0f);
     }
 
-    default float getFloat(String name, int defaultValue) {
+    default float getFloat(String name, float defaultValue) {
         Bundle bundle = getBundle();
         if (bundle == null) {
             return defaultValue;
@@ -53,10 +53,10 @@ public interface BundleAction {
     }
 
     default double getDouble(String name) {
-        return getDouble(name, 0);
+        return getDouble(name, 0.0);
     }
 
-    default double getDouble(String name, int defaultValue) {
+    default double getDouble(String name, double defaultValue) {
         Bundle bundle = getBundle();
         if (bundle == null) {
             return defaultValue;

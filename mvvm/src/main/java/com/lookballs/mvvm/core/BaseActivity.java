@@ -42,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
     /**
      * 上下文对象
      */
-    protected FragmentActivity activity = this;
+    private FragmentActivity activity = this;
 
     /**
      * 是否销毁页面
@@ -100,6 +100,18 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
 
     protected abstract void initData();
 
+    public FragmentActivity getAct() {
+        return activity;
+    }
+
+    /**
+     * 根据资源 id 获取一个 View 对象
+     */
+    @Override
+    public <T extends View> T findViewById(int id) {
+        return super.findViewById(id);
+    }
+
     /**
      * 和setContentView对应的方法
      */
@@ -137,15 +149,15 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
 
     }
 
-    protected boolean isRegisterEventBus() {
+    public boolean isRegisterEventBus() {
         return false;
     }
 
-    protected void receiveEvent(BaseEvent event) {
+    public void receiveEvent(BaseEvent event) {
 
     }
 
-    protected void receiveStickyEvent(BaseEvent event) {
+    public void receiveStickyEvent(BaseEvent event) {
 
     }
 

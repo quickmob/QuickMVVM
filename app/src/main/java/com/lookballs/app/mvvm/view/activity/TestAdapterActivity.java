@@ -47,7 +47,7 @@ public class TestAdapterActivity extends AppBindingActivity<TestViewModel, Activ
 
     @Override
     protected void initView() {
-        dataBinding.rvData.setLayoutManager(new LinearLayoutManager(this));
+        dataBinding().rvData.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -67,12 +67,12 @@ public class TestAdapterActivity extends AppBindingActivity<TestViewModel, Activ
     private void initAdapter() {
         mAdapter = new TestAdapter(R.layout.item_article);
         mAdapter.setAnimationEnable(true);
-        dataBinding.rvData.setAdapter(mAdapter);
+        dataBinding().rvData.setAdapter(mAdapter);
     }
 
     private void initRefresh() {
-        dataBinding.swipeLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
-        dataBinding.swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        dataBinding().swipeLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+        dataBinding().swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshData();
@@ -114,7 +114,7 @@ public class TestAdapterActivity extends AppBindingActivity<TestViewModel, Activ
      * 请求数据
      */
     private void requestData() {
-        viewModel.getArticle(pageInfo.page);
+        viewModel().getArticle(pageInfo.page);
     }
 
     @Override
@@ -124,13 +124,13 @@ public class TestAdapterActivity extends AppBindingActivity<TestViewModel, Activ
             Exception e = (Exception) o;
             ToastUtils.showLong(e.getMessage());
 
-            dataBinding.swipeLayout.setRefreshing(false);
+            dataBinding().swipeLayout.setRefreshing(false);
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             mAdapter.getLoadMoreModule().loadMoreFail();
         } else if (o instanceof Integer) {
 
         } else if (o instanceof ArticleJsonBean) {
-            dataBinding.swipeLayout.setRefreshing(false);
+            dataBinding().swipeLayout.setRefreshing(false);
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
 
             ArticleJsonBean bean = (ArticleJsonBean) o;

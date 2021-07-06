@@ -19,7 +19,7 @@ public class TestBindingDialog extends BaseBindingDialog<DialogTestBindingBindin
 
     @Override
     protected void initView() {
-        dataBinding.setTitle("我是一个Dialog");
+        dataBinding().setTitle("我是一个Dialog");
     }
 
     @Override

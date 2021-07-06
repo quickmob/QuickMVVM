@@ -36,7 +36,7 @@ public abstract class BasePopupWindow extends PopupWindow implements ILifecycleO
     /**
      * activity对象
      */
-    protected FragmentActivity activity;
+    private FragmentActivity activity;
 
     /**
      * 显示监听
@@ -96,17 +96,21 @@ public abstract class BasePopupWindow extends PopupWindow implements ILifecycleO
 
     protected abstract void initData();
 
+    public FragmentActivity getAct() {
+        return activity;
+    }
+
     /**
      * 设置宽度
      */
-    protected int setWindowWidth() {
+    public int setWindowWidth() {
         return WindowManager.LayoutParams.WRAP_CONTENT;
     }
 
     /**
      * 设置高度
      */
-    protected int setWindowHeight() {
+    public int setWindowHeight() {
         return WindowManager.LayoutParams.WRAP_CONTENT;
     }
 
@@ -120,15 +124,15 @@ public abstract class BasePopupWindow extends PopupWindow implements ILifecycleO
      * 7、setOutsideTouchable设置为false，setFocusable设置为true，setTouchable设置为false：点击窗口外部不可关闭，按返回键可关闭，响应外部点击事件
      * 8、setOutsideTouchable设置为false，setFocusable设置为false，setTouchable设置为false：点击窗口外部不可关闭，按返回键直接退出页面，响应外部点击事件
      */
-    protected boolean setWindowOutsideTouchable() {
+    public boolean setWindowOutsideTouchable() {
         return true;
     }
 
-    protected boolean setWindowFocusable() {
+    public boolean setWindowFocusable() {
         return true;
     }
 
-    protected boolean setWindowTouchable() {
+    public boolean setWindowTouchable() {
         return true;
     }
 

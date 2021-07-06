@@ -28,7 +28,7 @@ public class LoadingDialog extends BaseBindingDialog<DialogLoadingBinding> {
 
     @Override
     protected void initView() {
-        dataBinding.setData(tips);
+        dataBinding().setData(tips);
         setBackgroundDimEnabled(false);
     }
 
@@ -38,12 +38,12 @@ public class LoadingDialog extends BaseBindingDialog<DialogLoadingBinding> {
     }
 
     @Override
-    protected boolean setCanceledOnTouchOutside() {
+    public boolean setCanceledOnTouchOutside() {
         return false;
     }
 
     @Override
-    protected boolean setCancelable() {
+    public boolean setCancelable() {
         return isCancelable;
     }
 }

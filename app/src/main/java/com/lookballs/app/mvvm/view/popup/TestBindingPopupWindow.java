@@ -19,7 +19,7 @@ public class TestBindingPopupWindow extends BaseBindingPopupWindow<PopupwindowTe
 
     @Override
     protected void initView() {
-        dataBinding.setTitle("我是一个PopupWindow");
+        dataBinding().setTitle("我是一个PopupWindow");
     }
 
     @Override

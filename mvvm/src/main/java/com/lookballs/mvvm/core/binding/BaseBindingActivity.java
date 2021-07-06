@@ -14,37 +14,43 @@ import com.lookballs.mvvm.core.BaseActivity;
  */
 public abstract class BaseBindingActivity<VM extends BaseViewModel, DB extends ViewDataBinding> extends BaseActivity implements Observer<Object> {
 
-    protected DB dataBinding;
-    protected VM viewModel;
+    private DB dataBinding;
+    private VM viewModel;
 
     @Override
     protected void initContentView() {
         injectDataBinding();
-        if (getViewModel() != null) {
-            injectViewModel();
-        }
+        injectViewModel();
     }
 
     private void injectDataBinding() {
-        dataBinding = DataBindingUtil.setContentView(activity, getLayoutId());
-        dataBinding.setLifecycleOwner(activity);
+        dataBinding = DataBindingUtil.setContentView(getAct(), getLayoutId());
+        dataBinding.setLifecycleOwner(getAct());
     }
 
     private void injectViewModel() {
-        viewModel = new ViewModelProvider(activity).get(getViewModel());
-        getLifecycle().addObserver(viewModel);
-        if (isObserveChanged()) {
-            viewModel.mLiveData.observeForever(this);
-            viewModel.mDialogData.observeForever(this);
+        if (getViewModel() != null) {
+            viewModel = new ViewModelProvider(getAct()).get(getViewModel());
+            getLifecycle().addObserver(viewModel);
+            if (isObserveChanged()) {
+                viewModel.getLiveData().observeForever(this);
+                viewModel.getDialogData().observeForever(this);
+            }
         }
     }
 
-    protected Class<VM> getViewModel() {
-        return null;
+    protected abstract Class<VM> getViewModel();
+
+    public boolean isObserveChanged() {
+        return true;
     }
 
-    protected boolean isObserveChanged() {
-        return true;
+    public DB dataBinding() {
+        return dataBinding;
+    }
+
+    public VM viewModel() {
+        return viewModel;
     }
 
     @Override

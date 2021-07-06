@@ -32,11 +32,11 @@ public abstract class AppBindingActivity<VM extends BaseViewModel, DB extends Vi
      * 显示加载对话框
      */
     public void showDialog() {
-        if (activity == null || isFinishing() || isDestroyed()) {
+        if (getAct() == null || isFinishing() || isDestroyed()) {
             return;
         }
         if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
+            loadingDialog = new LoadingDialog(getAct());
         }
         if (!loadingDialog.isShowing()) {
             loadingDialog.show();
@@ -47,7 +47,7 @@ public abstract class AppBindingActivity<VM extends BaseViewModel, DB extends Vi
      * 隐藏加载对话框
      */
     public void dismissDialog() {
-        if (!isShowDialog() && (activity == null || isFinishing() || isDestroyed())) {
+        if (!isShowDialog() && (getAct() == null || isFinishing() || isDestroyed())) {
             return;
         }
         loadingDialog.dismiss();

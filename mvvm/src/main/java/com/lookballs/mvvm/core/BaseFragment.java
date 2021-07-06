@@ -47,16 +47,9 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
     private boolean isLoading = false;
 
     /**
-     * 是否开启懒加载，默认开启
-     */
-    protected boolean isLazyLoad() {
-        return true;
-    }
-
-    /**
      * activity对象
      */
-    protected FragmentActivity activity = null;
+    private FragmentActivity activity = null;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -122,9 +115,16 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
     }
 
     /**
+     * 是否开启懒加载，默认开启
+     */
+    protected boolean isLazyLoad() {
+        return true;
+    }
+
+    /**
      * 这个 Fragment 是否已经加载过了
      */
-    public boolean isLoading() {
+    protected boolean isLoading() {
         return isLoading;
     }
 
@@ -155,6 +155,11 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
     protected abstract void initData();
 
     @Override
+    public Context getContext() {
+        return activity;
+    }
+
+    @Override
     public Bundle getBundle() {
         return getArguments();
     }
@@ -164,15 +169,19 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
 
     }
 
-    protected boolean isRegisterEventBus() {
+    public FragmentActivity getAct() {
+        return activity;
+    }
+
+    public boolean isRegisterEventBus() {
         return false;
     }
 
-    protected void receiveEvent(BaseEvent event) {
+    public void receiveEvent(BaseEvent event) {
 
     }
 
-    protected void receiveStickyEvent(BaseEvent event) {
+    public void receiveStickyEvent(BaseEvent event) {
 
     }
 

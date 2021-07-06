@@ -33,13 +33,13 @@ public abstract class BaseDialog extends AppCompatDialog implements ILifecycleOb
     /**
      * activity对象
      */
-    protected FragmentActivity activity;
+    private FragmentActivity activity;
 
     /**
      * fragment对象
      */
     @Nullable
-    protected Fragment fragment;
+    private Fragment fragment;
 
     public BaseDialog(FragmentActivity activity) {
         this(activity, null, R.style.BaseDialogTheme);
@@ -104,17 +104,25 @@ public abstract class BaseDialog extends AppCompatDialog implements ILifecycleOb
 
     protected abstract void initData();
 
+    public FragmentActivity getAct() {
+        return activity;
+    }
+
+    public Fragment getFg() {
+        return fragment;
+    }
+
     /**
      * 1、setCancelable设置为true，setCanceledOnTouchOutside设置为true：点击空白处消失，按返回键消失
      * 2、setCancelable设置为true，setCanceledOnTouchOutside设置为false：点击空白处不消失，按返回键消失
      * 3、setCancelable设置为false，setCanceledOnTouchOutside设置为true：点击空白处消失，按返回键消失
      * 4、setCancelable设置为false，setCanceledOnTouchOutside设置为false：点击空白处不消失，按返回键不消失
      */
-    protected boolean setCancelable() {
+    public boolean setCancelable() {
         return true;
     }
 
-    protected boolean setCanceledOnTouchOutside() {
+    public boolean setCanceledOnTouchOutside() {
         return true;
     }
 

@@ -33,8 +33,13 @@ public class TestBindingFragment extends AppBindingFragment<BaseViewModel, Fragm
     @Override
     protected void initData() {
         type = getArguments().getInt("type");
-        dataBinding.btn.setText("标题" + type);
-        dataBinding.setTitle("标题标题" + type);
-        Toast.makeText(activity, "标题" + type, Toast.LENGTH_SHORT).show();
+        dataBinding().btn.setText("标题" + type);
+        dataBinding().setTitle("标题标题" + type);
+        Toast.makeText(getAct(), "标题" + type, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected Class<BaseViewModel> getViewModel() {
+        return BaseViewModel.class;
     }
 }

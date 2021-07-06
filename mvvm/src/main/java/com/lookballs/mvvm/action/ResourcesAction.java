@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
@@ -23,11 +24,19 @@ public interface ResourcesAction {
     }
 
     default String getString(@StringRes int id) {
-        return getContext().getString(id);
+        return getResources().getString(id);
     }
 
     default String getString(@StringRes int id, Object... formatArgs) {
         return getResources().getString(id, formatArgs);
+    }
+
+    default float getDimension(@DimenRes int id) {
+        return getResources().getDimension(id);
+    }
+
+    default int getDimensionPixelSize(@DimenRes int id) {
+        return getResources().getDimensionPixelSize(id);
     }
 
     default Drawable getDrawable(@DrawableRes int id) {

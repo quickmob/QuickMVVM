@@ -46,8 +46,8 @@ public class TestBindingActivity extends AppBindingActivity<BaseViewModel, Activ
         }
         mAdapter.addFragments(mFragments, mTitles);
 
-        dataBinding.viewPager.setAdapter(mAdapter);
-        dataBinding.tabLayout.setupWithViewPager(dataBinding.viewPager);
+        dataBinding().viewPager.setAdapter(mAdapter);
+        dataBinding().tabLayout.setupWithViewPager(dataBinding().viewPager);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class TestBindingActivity extends AppBindingActivity<BaseViewModel, Activ
         mTitles.remove(0);
         mAdapter.addFragments(mFragments, mTitles);
 
-        dataBinding.viewPager.setAdapter(mAdapter);
-        dataBinding.tabLayout.setupWithViewPager(dataBinding.viewPager);
+        dataBinding().viewPager.setAdapter(mAdapter);
+        dataBinding().tabLayout.setupWithViewPager(dataBinding().viewPager);
     }
 }

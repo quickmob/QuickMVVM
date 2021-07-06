@@ -15,14 +15,26 @@ import com.lookballs.mvvm.core.ILifecycleObserver;
  */
 public class BaseViewModel extends ViewModel implements ILifecycleObserver {
 
-    protected MutableLiveData<Object> mDialogData = new MutableLiveData<>();
-    protected MutableLiveData<Object> mLiveData = new MutableLiveData<>();
+    private MutableLiveData<Object> mDialogData = new MutableLiveData<>();
+    private MutableLiveData<Object> mLiveData = new MutableLiveData<>();
 
     @Nullable
-    protected LifecycleOwner mLifcycleOwner;
+    private LifecycleOwner mLifcycleOwner;
 
     @Override
     public void onLifecycleChanged(LifecycleOwner owner, Lifecycle.Event event) {
         this.mLifcycleOwner = owner;
+    }
+
+    public MutableLiveData<Object> getDialogData() {
+        return mDialogData;
+    }
+
+    public MutableLiveData<Object> getLiveData() {
+        return mLiveData;
+    }
+
+    public LifecycleOwner getLifecycleOwner() {
+        return mLifcycleOwner;
     }
 }

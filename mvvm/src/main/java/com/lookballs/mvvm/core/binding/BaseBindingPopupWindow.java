@@ -17,7 +17,7 @@ import com.lookballs.mvvm.core.BasePopupWindow;
  */
 public abstract class BaseBindingPopupWindow<DB extends ViewDataBinding> extends BasePopupWindow {
 
-    protected DB dataBinding;
+    private DB dataBinding;
 
     public BaseBindingPopupWindow(FragmentActivity activity) {
         super(activity);
@@ -29,16 +29,22 @@ public abstract class BaseBindingPopupWindow<DB extends ViewDataBinding> extends
     }
 
     private void injectDataBinding() {
-        dataBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), getLayoutId(), null, false);
+        dataBinding = DataBindingUtil.inflate(LayoutInflater.from(getAct()), getLayoutId(), null, false);
         setRootView(dataBinding.getRoot());
         setContentView(getRootView());
+    }
+
+    public DB dataBinding() {
+        return dataBinding;
     }
 
     @Override
     public void onLifecycleChanged(LifecycleOwner owner, Lifecycle.Event event) {
         if (event.equals(Lifecycle.Event.ON_DESTROY)) {
             if (isShowing()) {
-                dataBinding.unbind();
+                if (dataBinding != null) {
+                    dataBinding.unbind();
+                }
             }
         }
         super.onLifecycleChanged(owner, event);

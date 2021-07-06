@@ -19,7 +19,7 @@ import com.lookballs.mvvm.core.BaseDialog;
  */
 public abstract class BaseBindingDialog<DB extends ViewDataBinding> extends BaseDialog {
 
-    protected DB dataBinding;
+    private DB dataBinding;
 
     public BaseBindingDialog(FragmentActivity activity) {
         super(activity);
@@ -36,16 +36,22 @@ public abstract class BaseBindingDialog<DB extends ViewDataBinding> extends Base
 
     private void injectDataBinding() {
         // 这里解释一下，为什么要传 new FrameLayout，因为如果不传的话，XML 的根布局获取到的 LayoutParams 对象会为空，也就会导致宽高参数解析不出来
-        dataBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), getLayoutId(), new FrameLayout(activity), false);
+        dataBinding = DataBindingUtil.inflate(LayoutInflater.from(getAct()), getLayoutId(), new FrameLayout(getAct()), false);
         setRootView(dataBinding.getRoot());
         setContentView(getRootView());
+    }
+
+    public DB dataBinding() {
+        return dataBinding;
     }
 
     @Override
     public void onLifecycleChanged(LifecycleOwner owner, Lifecycle.Event event) {
         if (event.equals(Lifecycle.Event.ON_DESTROY)) {
             if (isShowing()) {
-                dataBinding.unbind();
+                if (dataBinding != null) {
+                    dataBinding.unbind();
+                }
             }
         }
         super.onLifecycleChanged(owner, event);

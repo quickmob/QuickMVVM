@@ -1,3 +1,4 @@
+include ':mvvm-kt'
 include ':mvvm'
 include ':app'
 rootProject.name = "QuickMVVM"

@@ -19,38 +19,44 @@ import com.lookballs.mvvm.core.BaseFragment;
  */
 public abstract class BaseBindingFragment<VM extends BaseViewModel, DB extends ViewDataBinding> extends BaseFragment implements Observer<Object> {
 
-    protected DB dataBinding;
-    protected VM viewModel;
+    private DB dataBinding;
+    private VM viewModel;
 
     @Override
     protected void initContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         injectDataBinding(inflater, container);
-        if (getViewModel() != null) {
-            injectViewModel();
-        }
+        injectViewModel();
     }
 
     private void injectDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         dataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
-        dataBinding.setLifecycleOwner(activity);
+        dataBinding.setLifecycleOwner(getAct());
         setRootView(dataBinding.getRoot());
     }
 
     private void injectViewModel() {
-        viewModel = new ViewModelProvider(activity).get(getViewModel());
-        getLifecycle().addObserver(viewModel);
-        if (isObserveChanged()) {
-            viewModel.mLiveData.observeForever(this);
-            viewModel.mDialogData.observeForever(this);
+        if (getViewModel() != null) {
+            viewModel = new ViewModelProvider(getAct()).get(getViewModel());
+            getLifecycle().addObserver(viewModel);
+            if (isObserveChanged()) {
+                viewModel.getLiveData().observeForever(this);
+                viewModel.getDialogData().observeForever(this);
+            }
         }
     }
 
-    protected Class<VM> getViewModel() {
-        return null;
+    protected abstract Class<VM> getViewModel();
+
+    public boolean isObserveChanged() {
+        return true;
     }
 
-    protected boolean isObserveChanged() {
-        return true;
+    public DB dataBinding() {
+        return dataBinding;
+    }
+
+    public VM viewModel() {
+        return viewModel;
     }
 
     @Override

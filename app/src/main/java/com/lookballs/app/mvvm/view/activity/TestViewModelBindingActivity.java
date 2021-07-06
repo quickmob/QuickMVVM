@@ -21,7 +21,7 @@ public class TestViewModelBindingActivity extends AppBindingActivity<TestViewMod
 
     @Override
     protected void initData() {
-        viewModel.getBanner();
+        viewModel().getBanner();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class TestViewModelBindingActivity extends AppBindingActivity<TestViewMod
             ToastUtils.showLong(e.getMessage());
         } else if (o instanceof BannerJsonBean) {
             BannerJsonBean bean = (BannerJsonBean) o;
-            dataBinding.setData(bean);
+            dataBinding().setData(bean);
         }
     }
 }

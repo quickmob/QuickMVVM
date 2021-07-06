@@ -16,8 +16,7 @@ public interface KeyboardAction {
         if (view == null) {
             return;
         }
-        InputMethodManager manager = (InputMethodManager) view.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager manager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager != null) {
             manager.showSoftInput(view, 0);
         }
@@ -30,8 +29,7 @@ public interface KeyboardAction {
         if (view == null) {
             return;
         }
-        InputMethodManager manager = (InputMethodManager) view.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager manager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager != null) {
             manager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
@@ -44,8 +42,7 @@ public interface KeyboardAction {
         if (view == null) {
             return;
         }
-        InputMethodManager manager = (InputMethodManager) view.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager manager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager != null) {
             manager.toggleSoftInput(0, 0);
         }

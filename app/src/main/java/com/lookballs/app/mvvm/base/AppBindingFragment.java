@@ -27,11 +27,11 @@ public abstract class AppBindingFragment<VM extends BaseViewModel, DB extends Vi
      * 显示加载对话框
      */
     public void showDialog() {
-        if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+        if (getAct() == null || getAct().isFinishing() || getAct().isDestroyed()) {
             return;
         }
         if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(activity);
+            loadingDialog = new LoadingDialog(getAct());
         }
         if (!loadingDialog.isShowing()) {
             loadingDialog.show();
@@ -42,7 +42,7 @@ public abstract class AppBindingFragment<VM extends BaseViewModel, DB extends Vi
      * 隐藏加载对话框
      */
     public void dismissDialog() {
-        if (!isShowDialog() && (activity == null || activity.isFinishing() || activity.isDestroyed())) {
+        if (!isShowDialog() && (getAct() == null || getAct().isFinishing() || getAct().isDestroyed())) {
             return;
         }
         loadingDialog.dismiss();
@@ -54,14 +54,14 @@ public abstract class AppBindingFragment<VM extends BaseViewModel, DB extends Vi
         if (o instanceof Integer) {
             int code = (int) o;
             if (code == ViewModelConstant.DIALOG_SHOW) {
-                if (activity != null && activity instanceof AppBindingActivity) {
-                    ((AppBindingActivity) activity).showDialog();
+                if (getAct() != null && getAct() instanceof AppBindingActivity) {
+                    ((AppBindingActivity) getAct()).showDialog();
                 } else {
                     showDialog();
                 }
             } else if (code == ViewModelConstant.DIALOG_DISMISS) {
-                if (activity != null && activity instanceof AppBindingActivity) {
-                    ((AppBindingActivity) activity).dismissDialog();
+                if (getAct() != null && getAct() instanceof AppBindingActivity) {
+                    ((AppBindingActivity) getAct()).dismissDialog();
                 } else {
                     dismissDialog();
                 }
