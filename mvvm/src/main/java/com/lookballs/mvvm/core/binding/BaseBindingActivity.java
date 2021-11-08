@@ -18,7 +18,7 @@ public abstract class BaseBindingActivity<VM extends BaseViewModel, DB extends V
     private VM viewModel;
 
     @Override
-    protected void initContentView() {
+    public void initContentView() {
         injectDataBinding();
         injectViewModel();
     }
@@ -33,8 +33,8 @@ public abstract class BaseBindingActivity<VM extends BaseViewModel, DB extends V
             viewModel = new ViewModelProvider(getAct()).get(getViewModel());
             getLifecycle().addObserver(viewModel);
             if (isObserveChanged()) {
-                viewModel.getLiveData().observeForever(this);
-                viewModel.getDialogData().observeForever(this);
+                viewModel.getLiveData().observe(getAct(), this);
+                viewModel.getDialogData().observe(getAct(), this);
             }
         }
     }

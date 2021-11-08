@@ -84,15 +84,15 @@ public abstract class BaseDialog extends AppCompatDialog implements ILifecycleOb
         });
     }
 
-    protected View getRootView() {
+    public View getRootView() {
         return rootView;
     }
 
-    protected void setRootView(View view) {
+    public void setRootView(View view) {
         this.rootView = view;
     }
 
-    protected void initContentView() {
+    public void initContentView() {
         // 这里解释一下，为什么要传 new FrameLayout，因为如果不传的话，XML 的根布局获取到的 LayoutParams 对象会为空，也就会导致宽高参数解析不出来
         rootView = LayoutInflater.from(activity).inflate(getLayoutId(), new FrameLayout(activity), false);
         setContentView(rootView);

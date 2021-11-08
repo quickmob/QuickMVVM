@@ -77,15 +77,15 @@ public abstract class BasePopupWindow extends PopupWindow implements ILifecycleO
         setTouchable(setWindowTouchable());
     }
 
-    protected View getRootView() {
+    public View getRootView() {
         return rootView;
     }
 
-    protected void setRootView(View view) {
+    public void setRootView(View view) {
         this.rootView = view;
     }
 
-    protected void initContentView() {
+    public void initContentView() {
         rootView = LayoutInflater.from(activity).inflate(getLayoutId(), null, false);
         setContentView(rootView);
     }

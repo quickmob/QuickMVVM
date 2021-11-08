@@ -30,7 +30,7 @@ public abstract class BaseBindingDialog<DB extends ViewDataBinding> extends Base
     }
 
     @Override
-    protected void initContentView() {
+    public void initContentView() {
         injectDataBinding();
     }
 

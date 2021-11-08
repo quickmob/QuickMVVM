@@ -16,16 +16,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 
-import com.lookballs.mvvm.BaseEvent;
 import com.lookballs.mvvm.action.BundleAction;
 import com.lookballs.mvvm.action.ClickAction;
 import com.lookballs.mvvm.action.HandlerAction;
 import com.lookballs.mvvm.action.KeyboardAction;
 import com.lookballs.mvvm.action.ResourcesAction;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -50,6 +45,11 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
      * activity对象
      */
     private FragmentActivity activity = null;
+
+    /**
+     * 页面是否显示
+     */
+    private boolean isShowing = false;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -110,42 +110,45 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
      *
      * @param firstLoad 是否首次加载
      */
-    protected void onFragmentResume(boolean firstLoad) {
-
+    public void onFragmentResume(boolean firstLoad) {
+        isShowing = true;
     }
 
     /**
      * 是否开启懒加载，默认开启
      */
-    protected boolean isLazyLoad() {
+    public boolean isLazyLoad() {
         return true;
     }
 
     /**
      * 这个 Fragment 是否已经加载过了
      */
-    protected boolean isLoading() {
+    public boolean isLoading() {
         return isLoading;
     }
 
-    protected View getRootView() {
+    /**
+     * 页面是否显示
+     */
+    public boolean isShowing() {
+        return isShowing;
+    }
+
+    public View getRootView() {
         return rootView;
     }
 
-    protected void setRootView(View view) {
+    public void setRootView(View view) {
         this.rootView = view;
     }
 
-    protected void initContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+    public void initContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         rootView = inflater.inflate(getLayoutId(), container, false);
     }
 
     private void initOther() {
-        if (isRegisterEventBus()) {
-            if (!EventBus.getDefault().isRegistered(this)) {
-                EventBus.getDefault().register(this);
-            }
-        }
+
     }
 
     protected abstract int getLayoutId();
@@ -173,41 +176,16 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
         return activity;
     }
 
-    public boolean isRegisterEventBus() {
-        return false;
-    }
-
-    public void receiveEvent(BaseEvent event) {
-
-    }
-
-    public void receiveStickyEvent(BaseEvent event) {
-
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventBus(BaseEvent event) {
-        if (event != null) {
-            receiveEvent(event);
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onStickyEventBus(BaseEvent event) {
-        if (event != null) {
-            receiveStickyEvent(event);
-            EventBus.getDefault().removeStickyEvent(event);
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+        isShowing = false;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (isRegisterEventBus()) {
-            if (EventBus.getDefault().isRegistered(this)) {
-                EventBus.getDefault().unregister(this);
-            }
-        }
+        isShowing = false;
         removeCallbacks();
     }
 

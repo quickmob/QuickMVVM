@@ -24,7 +24,7 @@ public abstract class BaseBindingPopupWindow<DB extends ViewDataBinding> extends
     }
 
     @Override
-    protected void initContentView() {
+    public void initContentView() {
         injectDataBinding();
     }
 

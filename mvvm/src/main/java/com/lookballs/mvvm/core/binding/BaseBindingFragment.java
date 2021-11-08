@@ -23,7 +23,7 @@ public abstract class BaseBindingFragment<VM extends BaseViewModel, DB extends V
     private VM viewModel;
 
     @Override
-    protected void initContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+    public void initContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         injectDataBinding(inflater, container);
         injectViewModel();
     }
@@ -39,8 +39,8 @@ public abstract class BaseBindingFragment<VM extends BaseViewModel, DB extends V
             viewModel = new ViewModelProvider(getAct()).get(getViewModel());
             getLifecycle().addObserver(viewModel);
             if (isObserveChanged()) {
-                viewModel.getLiveData().observeForever(this);
-                viewModel.getDialogData().observeForever(this);
+                viewModel.getLiveData().observe(this, this);
+                viewModel.getDialogData().observe(this, this);
             }
         }
     }

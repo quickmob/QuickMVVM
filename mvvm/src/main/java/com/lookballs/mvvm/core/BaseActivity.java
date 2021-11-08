@@ -18,16 +18,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.lookballs.mvvm.BaseEvent;
 import com.lookballs.mvvm.action.BundleAction;
 import com.lookballs.mvvm.action.ClickAction;
 import com.lookballs.mvvm.action.HandlerAction;
 import com.lookballs.mvvm.action.KeyboardAction;
 import com.lookballs.mvvm.action.ResourcesAction;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 import java.util.Random;
@@ -48,6 +43,11 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
      * 是否销毁页面
      */
     private boolean isDestroyed = false;
+
+    /**
+     * 页面是否显示
+     */
+    private boolean isShowing = false;
 
     /**
      * Activity 回调集合
@@ -73,11 +73,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
 
     private void initOther() {
         getLifecycle().addObserver(this);
-        if (isRegisterEventBus()) {
-            if (!EventBus.getDefault().isRegistered(this)) {
-                EventBus.getDefault().register(this);
-            }
-        }
         clearFragments();
         //点击外部隐藏软键盘，提升用户体验
         getContentView().setOnClickListener(v -> {
@@ -86,11 +81,11 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
         });
     }
 
-    protected void initBefore() {
+    public void initBefore() {
 
     }
 
-    protected void initContentView() {
+    public void initContentView() {
         setContentView(getLayoutId());
     }
 
@@ -102,6 +97,13 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
 
     public FragmentActivity getAct() {
         return activity;
+    }
+
+    /**
+     * 页面是否显示
+     */
+    public boolean isShowing() {
+        return isShowing;
     }
 
     /**
@@ -149,36 +151,16 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
 
     }
 
-    public boolean isRegisterEventBus() {
-        return false;
-    }
-
-    public void receiveEvent(BaseEvent event) {
-
-    }
-
-    public void receiveStickyEvent(BaseEvent event) {
-
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventBus(BaseEvent event) {
-        if (event != null) {
-            receiveEvent(event);
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onStickyEventBus(BaseEvent event) {
-        if (event != null) {
-            receiveStickyEvent(event);
-            EventBus.getDefault().removeStickyEvent(event);
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isShowing = true;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        isShowing = false;
         if (isFinishing()) {
             destroy();
         }
@@ -187,6 +169,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        isShowing = false;
         destroy();
     }
 
@@ -236,11 +219,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
         } else {
             //回收资源
             isDestroyed = true;
-            if (isRegisterEventBus()) {
-                if (EventBus.getDefault().isRegistered(this)) {
-                    EventBus.getDefault().unregister(this);
-                }
-            }
             removeCallbacks();
         }
     }

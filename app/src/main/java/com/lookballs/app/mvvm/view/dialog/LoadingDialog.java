@@ -9,10 +9,20 @@ import com.lookballs.mvvm.core.binding.BaseBindingDialog;
 public class LoadingDialog extends BaseBindingDialog<DialogLoadingBinding> {
 
     private String tips = "加载中";
-    private boolean isCancelable = false;
+    private boolean isCancelable = true;
 
     public LoadingDialog(FragmentActivity activity) {
         super(activity);
+    }
+
+    public LoadingDialog(FragmentActivity activity, boolean isCancelable) {
+        super(activity);
+        this.isCancelable = isCancelable;
+    }
+
+    public LoadingDialog(FragmentActivity activity, String tips) {
+        super(activity);
+        this.tips = tips;
     }
 
     public LoadingDialog(FragmentActivity activity, String tips, boolean isCancelable) {

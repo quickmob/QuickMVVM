@@ -26,12 +26,12 @@ public abstract class AppBindingFragment<VM extends BaseViewModel, DB extends Vi
     /**
      * 显示加载对话框
      */
-    public void showDialog() {
+    public void showDialog(boolean isCancelable) {
         if (getAct() == null || getAct().isFinishing() || getAct().isDestroyed()) {
             return;
         }
         if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(getAct());
+            loadingDialog = new LoadingDialog(getAct(), isCancelable);
         }
         if (!loadingDialog.isShowing()) {
             loadingDialog.show();
@@ -55,9 +55,15 @@ public abstract class AppBindingFragment<VM extends BaseViewModel, DB extends Vi
             int code = (int) o;
             if (code == ViewModelConstant.DIALOG_SHOW) {
                 if (getAct() != null && getAct() instanceof AppBindingActivity) {
-                    ((AppBindingActivity) getAct()).showDialog();
+                    ((AppBindingActivity) getAct()).showDialog(true);
                 } else {
-                    showDialog();
+                    showDialog(true);
+                }
+            } else if (code == ViewModelConstant.DIALOG_SHOW_CANNOT) {
+                if (getAct() != null && getAct() instanceof AppBindingActivity) {
+                    ((AppBindingActivity) getAct()).showDialog(false);
+                } else {
+                    showDialog(false);
                 }
             } else if (code == ViewModelConstant.DIALOG_DISMISS) {
                 if (getAct() != null && getAct() instanceof AppBindingActivity) {
