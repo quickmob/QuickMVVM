@@ -44,7 +44,7 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
 
     //QuickHttp
-    implementation 'com.github.quickmob:QuickHttp:latest.release'
+    implementation 'com.github.quickmob:QuickHttp:1.0.4'
     implementation 'com.squareup.okhttp3:okhttp:3.12.13'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.13'
 

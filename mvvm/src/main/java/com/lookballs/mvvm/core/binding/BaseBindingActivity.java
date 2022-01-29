@@ -24,17 +24,17 @@ public abstract class BaseBindingActivity<VM extends BaseViewModel, DB extends V
     }
 
     private void injectDataBinding() {
-        dataBinding = DataBindingUtil.setContentView(getAct(), getLayoutId());
-        dataBinding.setLifecycleOwner(getAct());
+        dataBinding = DataBindingUtil.setContentView(this, getLayoutId());
+        dataBinding.setLifecycleOwner(this);
     }
 
     private void injectViewModel() {
         if (getViewModel() != null) {
-            viewModel = new ViewModelProvider(getAct()).get(getViewModel());
+            viewModel = new ViewModelProvider(this).get(getViewModel());
             getLifecycle().addObserver(viewModel);
             if (isObserveChanged()) {
-                viewModel.getLiveData().observe(getAct(), this);
-                viewModel.getDialogData().observe(getAct(), this);
+                viewModel.getLiveData().observe(this, this);
+                viewModel.getDialogData().observe(this, this);
             }
         }
     }

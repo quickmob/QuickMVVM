@@ -5,9 +5,9 @@ import android.content.Context;
 
 import com.lookballs.app.mvvm.http.CustomOkHttpClient;
 import com.lookballs.app.mvvm.http.converter.DataConverter;
+import com.lookballs.http.HttpConfig;
 import com.lookballs.http.QuickHttp;
-import com.lookballs.http.config.HttpConfig;
-import com.lookballs.http.listener.OnRetryConditionListener;
+import com.lookballs.http.core.listener.OnRetryConditionListener;
 
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;

@@ -6,14 +6,14 @@ import android.graphics.BitmapFactory;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.JsonSyntaxException;
 import com.lookballs.app.mvvm.bean.BaseBean;
-import com.lookballs.app.mvvm.util.gson.GsonUtil;
 import com.lookballs.http.core.converter.IDataConverter;
 import com.lookballs.http.core.exception.DataException;
 import com.lookballs.http.core.exception.ResultException;
 import com.lookballs.http.core.exception.TokenException;
-import com.lookballs.http.utils.QuickLogUtils;
+import com.lookballs.http.core.utils.QuickLogUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,13 +57,14 @@ public final class DataConverter implements IDataConverter {
         StringBuilder sb = new StringBuilder();
         sb.append("请求结果\n");
         sb.append("Url：").append(response.request().url()).append("\n");
+        sb.append("RequestTimeConsuming：").append((response.receivedResponseAtMillis() - response.sentRequestAtMillis())).append("ms").append("\n");
         sb.append("ResponseCode：").append(response.code()).append("\n");
         sb.append("ResponseResult：");
         QuickLogUtils.json(QuickLogUtils.logTag, sb.toString(), text);
     }
 
     @Override
-    public Object onSucceed(@Nullable LifecycleOwner lifecycleOwner, Response response, Type type) throws Exception {
+    public Object onSucceed(@Nullable LifecycleOwner lifecycleOwner, String url, Response response, Type type) throws Exception {
         long currentTime = getResponseTimeMill(response);
         QuickLogUtils.i(TAG, "当前服务器时间：" + currentTime);
 
@@ -111,7 +112,7 @@ public final class DataConverter implements IDataConverter {
             } else {
                 try {
                     //处理Json解析结果
-                    result = GsonUtil.fromJson(text, type);
+                    result = GsonUtils.fromJson(text, type);
                 } catch (JsonSyntaxException e) {
                     throw new DataException("数据解析异常", e);
                 }
@@ -133,7 +134,7 @@ public final class DataConverter implements IDataConverter {
     }
 
     @Override
-    public Exception onFail(@Nullable LifecycleOwner lifecycleOwner, Exception e) {
+    public Exception onFail(@Nullable LifecycleOwner lifecycleOwner, String url, Exception e) {
         QuickLogUtils.printStackTrace(e);
         return e;
     }

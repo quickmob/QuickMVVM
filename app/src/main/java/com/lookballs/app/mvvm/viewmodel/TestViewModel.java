@@ -5,7 +5,7 @@ import com.lookballs.app.mvvm.bean.BannerJsonBean;
 import com.lookballs.app.mvvm.constant.UrlConstant;
 import com.lookballs.app.mvvm.constant.ViewModelConstant;
 import com.lookballs.http.QuickHttp;
-import com.lookballs.http.listener.OnHttpListener;
+import com.lookballs.http.core.listener.OnHttpListener;
 import com.lookballs.mvvm.core.binding.BaseViewModel;
 
 import okhttp3.Call;

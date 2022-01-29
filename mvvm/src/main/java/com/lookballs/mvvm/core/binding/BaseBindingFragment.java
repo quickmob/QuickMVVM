@@ -30,13 +30,13 @@ public abstract class BaseBindingFragment<VM extends BaseViewModel, DB extends V
 
     private void injectDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         dataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
-        dataBinding.setLifecycleOwner(getAct());
+        dataBinding.setLifecycleOwner(this);
         setRootView(dataBinding.getRoot());
     }
 
     private void injectViewModel() {
         if (getViewModel() != null) {
-            viewModel = new ViewModelProvider(getAct()).get(getViewModel());
+            viewModel = new ViewModelProvider(this).get(getViewModel());
             getLifecycle().addObserver(viewModel);
             if (isObserveChanged()) {
                 viewModel.getLiveData().observe(this, this);
