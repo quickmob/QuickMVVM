@@ -8,7 +8,6 @@ import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 
 public abstract class BaseBindingAdapter<AB, DB extends ViewDataBinding> extends BaseQuickAdapter<AB, BaseDataBindingHolder<DB>> implements LoadMoreModule {
-
     private int variableId;
 
     public BaseBindingAdapter(int layoutResId, int variableId) {

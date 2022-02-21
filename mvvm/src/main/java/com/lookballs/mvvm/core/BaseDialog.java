@@ -17,6 +17,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.lookballs.mvvm.R;
+import com.lookballs.mvvm.impl.lifecycle.ILifecycleObserver;
 
 /**
  * 创建人：lucas
@@ -24,7 +25,6 @@ import com.lookballs.mvvm.R;
  * 类描述：Dialog基类
  */
 public abstract class BaseDialog extends AppCompatDialog implements ILifecycleObserver {
-
     /**
      * 缓存视图，如果视图已经创建，则不再初始化视图
      */
@@ -40,6 +40,21 @@ public abstract class BaseDialog extends AppCompatDialog implements ILifecycleOb
      */
     @Nullable
     private Fragment fragment;
+
+    /**
+     * 子类可以实现的自定义方法
+     */
+    public void initContentView() {
+        // 这里解释一下，为什么要传 new FrameLayout，因为如果不传的话，XML 的根布局获取到的 LayoutParams 对象会为空，也就会导致宽高参数解析不出来
+        rootView = LayoutInflater.from(activity).inflate(getLayoutId(), new FrameLayout(activity), false);
+        setContentView(rootView);
+    }
+
+    protected abstract int getLayoutId();
+
+    protected abstract void initView();
+
+    protected abstract void initData();
 
     public BaseDialog(FragmentActivity activity) {
         this(activity, null, R.style.BaseDialogTheme);
@@ -68,11 +83,11 @@ public abstract class BaseDialog extends AppCompatDialog implements ILifecycleOb
         initContentView();
         initView();
 
-        initConfig();
+        initOther();
         initData();
     }
 
-    private void initConfig() {
+    private void initOther() {
         setCancelable(setCancelable());
         setCanceledOnTouchOutside(setCanceledOnTouchOutside());
         getRootView().post(new Runnable() {
@@ -91,18 +106,6 @@ public abstract class BaseDialog extends AppCompatDialog implements ILifecycleOb
     public void setRootView(View view) {
         this.rootView = view;
     }
-
-    public void initContentView() {
-        // 这里解释一下，为什么要传 new FrameLayout，因为如果不传的话，XML 的根布局获取到的 LayoutParams 对象会为空，也就会导致宽高参数解析不出来
-        rootView = LayoutInflater.from(activity).inflate(getLayoutId(), new FrameLayout(activity), false);
-        setContentView(rootView);
-    }
-
-    protected abstract int getLayoutId();
-
-    protected abstract void initView();
-
-    protected abstract void initData();
 
     public FragmentActivity getAct() {
         return activity;

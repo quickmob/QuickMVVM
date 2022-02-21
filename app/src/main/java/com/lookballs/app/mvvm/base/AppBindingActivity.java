@@ -8,7 +8,7 @@ import androidx.databinding.ViewDataBinding;
 
 import com.lookballs.app.mvvm.R;
 import com.lookballs.app.mvvm.constant.ViewModelConstant;
-import com.lookballs.app.mvvm.view.dialog.LoadingDialog;
+import com.lookballs.app.mvvm.ui.dialog.LoadingDialog;
 import com.lookballs.mvvm.core.binding.BaseBindingActivity;
 import com.lookballs.mvvm.core.binding.BaseViewModel;
 

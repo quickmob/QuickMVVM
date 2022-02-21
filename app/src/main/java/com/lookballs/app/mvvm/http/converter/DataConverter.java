@@ -8,7 +8,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.JsonSyntaxException;
-import com.lookballs.app.mvvm.bean.BaseBean;
+import com.lookballs.app.mvvm.ui.bean.BaseBean;
 import com.lookballs.http.core.converter.IDataConverter;
 import com.lookballs.http.core.exception.DataException;
 import com.lookballs.http.core.exception.ResultException;

@@ -16,7 +16,6 @@ import com.lookballs.mvvm.core.BasePopupWindow;
  * 类描述：基于ViewDataBinding的PopupWindow基类
  */
 public abstract class BaseBindingPopupWindow<DB extends ViewDataBinding> extends BasePopupWindow {
-
     private DB dataBinding;
 
     public BaseBindingPopupWindow(FragmentActivity activity) {

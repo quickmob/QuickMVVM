@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.lookballs.mvvm.core.ILifecycleObserver;
+import com.lookballs.mvvm.impl.lifecycle.ILifecycleObserver;
 
 /**
  * 创建人：lucas
@@ -14,9 +14,9 @@ import com.lookballs.mvvm.core.ILifecycleObserver;
  * 类描述：ViewModel基类
  */
 public class BaseViewModel extends ViewModel implements ILifecycleObserver {
-
-    private MutableLiveData<Object> mDialogData = new MutableLiveData<>();
-    private MutableLiveData<Object> mLiveData = new MutableLiveData<>();
+    private MutableLiveData<Object> mDialogData = new MutableLiveData<>();//dialog专用
+    private MutableLiveData<Object> mActivityData = new MutableLiveData<>();//activity专用
+    private MutableLiveData<Object> mFragmentData = new MutableLiveData<>();//fragment专用
 
     @Nullable
     private LifecycleOwner mLifcycleOwner;
@@ -30,8 +30,12 @@ public class BaseViewModel extends ViewModel implements ILifecycleObserver {
         return mDialogData;
     }
 
-    public MutableLiveData<Object> getLiveData() {
-        return mLiveData;
+    public MutableLiveData<Object> getActivityData() {
+        return mActivityData;
+    }
+
+    public MutableLiveData<Object> getFragmentData() {
+        return mFragmentData;
     }
 
     public LifecycleOwner getLifecycleOwner() {

@@ -16,11 +16,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 
-import com.lookballs.mvvm.action.BundleAction;
-import com.lookballs.mvvm.action.ClickAction;
-import com.lookballs.mvvm.action.HandlerAction;
-import com.lookballs.mvvm.action.KeyboardAction;
-import com.lookballs.mvvm.action.ResourcesAction;
+import com.lookballs.mvvm.AppInstance;
+import com.lookballs.mvvm.impl.action.BundleAction;
+import com.lookballs.mvvm.impl.action.ClickAction;
+import com.lookballs.mvvm.impl.action.HandlerAction;
+import com.lookballs.mvvm.impl.action.KeyboardAction;
+import com.lookballs.mvvm.impl.action.ResourcesAction;
+import com.lookballs.mvvm.impl.lifecycle.IFragmentLifecycle;
 
 import java.util.List;
 
@@ -30,16 +32,10 @@ import java.util.List;
  * 类描述：Fragment基类(可以懒加载)
  */
 public abstract class BaseFragment extends Fragment implements HandlerAction, ClickAction, KeyboardAction, ResourcesAction, BundleAction {
-
     /**
      * 缓存视图，如果视图已经创建，则不再初始化视图
      */
     private View rootView = null;
-
-    /**
-     * 是否已经加载过
-     */
-    private boolean isLoading = false;
 
     /**
      * activity对象
@@ -51,88 +47,199 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
      */
     private boolean isShowing = false;
 
+    /**
+     * 这个Fragment是否已经加载过了
+     */
+    private boolean isLoaded;
+
+    /**
+     * 子类可以实现的自定义方法
+     */
+    public void onFragmentResume(boolean firstLoad) {
+
+    }
+
+    public void initContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        rootView = inflater.inflate(getLayoutId(), container, false);
+    }
+
+    protected abstract int getLayoutId();
+
+    protected abstract void initView();
+
+    protected abstract void initData();
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         activity = requireActivity();
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onAttach(getAct(), this);
+            }
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onCreate(getAct(), this, savedInstanceState);
+            }
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView != null) {
+            if (isLifecycleCallback()) {
+                for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                    callback.onCreateView(getAct(), this);
+                }
+            }
             return rootView;
         }
-        isLoading = false;
         initContentView(inflater, container);
         initView();
         initOther();
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onCreateView(getAct(), this);
+            }
+        }
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        tryInitData();
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onViewCreated(getAct(), this);
+            }
+        }
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (!isLazyLoad()) {
-            initData();
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onActivityCreate(getAct(), this);
+            }
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onStart(getAct(), this);
+            }
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (isLazyLoad()) {
-            if (!isLoading) {
-                isLoading = true;
-                initData();
-                onFragmentResume(true);
-                return;
+        isShowing = true;
+        tryInitData();
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onResume(getAct(), this);
             }
-            onFragmentResume(false);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isShowing = false;
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onPause(getAct(), this);
+            }
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onStop(getAct(), this);
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onSaveInstanceState(getAct(), this, outState);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        destroyResources();
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onDestroy(getAct(), this);
+            }
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        isLoading = false;
+        isLoaded = false;
         rootView = null;
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onDestroyView(getAct(), this);
+            }
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        if (isLifecycleCallback()) {
+            for (IFragmentLifecycle callback : AppInstance.get().getFragmentLifecycles()) {
+                callback.onDetach(getAct(), this);
+            }
+        }
         activity = null;
     }
 
-    /**
-     * Fragment 可见回调
-     *
-     * @param firstLoad 是否首次加载
-     */
-    public void onFragmentResume(boolean firstLoad) {
-        isShowing = true;
+    private void initOther() {
+
     }
 
-    /**
-     * 是否开启懒加载，默认开启
-     */
-    public boolean isLazyLoad() {
-        return true;
+    private void tryInitData() {
+        if (isLazyLoad()) {
+            if (!isLoaded) {
+                initData();
+                isLoaded = true;
+                onFragmentResume(true);
+                return;
+            }
+            onFragmentResume(false);
+        } else {
+            initData();
+        }
     }
 
-    /**
-     * 这个 Fragment 是否已经加载过了
-     */
-    public boolean isLoading() {
-        return isLoading;
-    }
-
-    /**
-     * 页面是否显示
-     */
-    public boolean isShowing() {
-        return isShowing;
+    public FragmentActivity getAct() {
+        return activity;
     }
 
     public View getRootView() {
@@ -142,20 +249,6 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
     public void setRootView(View view) {
         this.rootView = view;
     }
-
-    public void initContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        rootView = inflater.inflate(getLayoutId(), container, false);
-    }
-
-    private void initOther() {
-
-    }
-
-    protected abstract int getLayoutId();
-
-    protected abstract void initView();
-
-    protected abstract void initData();
 
     @Override
     public Context getContext() {
@@ -172,21 +265,32 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
 
     }
 
-    public FragmentActivity getAct() {
-        return activity;
+    /**
+     * 是否开启懒加载，默认开启
+     */
+    public boolean isLazyLoad() {
+        return true;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        isShowing = false;
+    /**
+     * 是否回调生命周期，默认回调
+     */
+    public boolean isLifecycleCallback() {
+        return true;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        isShowing = false;
-        removeCallbacks();
+    /**
+     * 这个Fragment是否已经加载过了
+     */
+    public boolean isLoaded() {
+        return isLoaded;
+    }
+
+    /**
+     * 页面是否显示
+     */
+    public boolean isShowing() {
+        return isShowing;
     }
 
     /**
@@ -205,6 +309,13 @@ public abstract class BaseFragment extends Fragment implements HandlerAction, Cl
             return;
         }
         activity.finish();
+    }
+
+    /**
+     * 回收资源
+     */
+    private void destroyResources() {
+        removeCallbacks();
     }
 
     /**

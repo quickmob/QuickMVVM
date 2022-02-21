@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 
-import com.lookballs.app.mvvm.bean.BannerJsonBean;
+import com.lookballs.app.mvvm.ui.bean.BannerJsonBean;
 import com.lookballs.app.mvvm.databinding.ItemBannerBinding;
 
 import java.util.List;

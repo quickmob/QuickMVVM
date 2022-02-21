@@ -18,7 +18,6 @@ import com.lookballs.mvvm.core.BaseDialog;
  * 类描述：基于ViewDataBinding的Dialog基类
  */
 public abstract class BaseBindingDialog<DB extends ViewDataBinding> extends BaseDialog {
-
     private DB dataBinding;
 
     public BaseBindingDialog(FragmentActivity activity) {

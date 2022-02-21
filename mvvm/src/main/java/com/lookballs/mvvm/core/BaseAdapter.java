@@ -9,7 +9,6 @@ import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 public class BaseAdapter<AB> extends BaseQuickAdapter<AB, BaseAdapter.BaseHolder> implements LoadMoreModule {
-
     public BaseAdapter(int layoutResId) {
         super(layoutResId);
     }

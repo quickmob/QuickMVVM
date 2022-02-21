@@ -18,9 +18,17 @@ import com.lookballs.mvvm.core.BaseFragment;
  * 类描述：基于MVVM模式的Fragment基类
  */
 public abstract class BaseBindingFragment<VM extends BaseViewModel, DB extends ViewDataBinding> extends BaseFragment implements Observer<Object> {
-
     private DB dataBinding;
     private VM viewModel;
+
+    /**
+     * 子类可以实现的自定义方法
+     */
+    protected abstract Class<VM> getViewModel();
+
+    public boolean isObserveChanged() {
+        return true;
+    }
 
     @Override
     public void initContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
@@ -39,16 +47,10 @@ public abstract class BaseBindingFragment<VM extends BaseViewModel, DB extends V
             viewModel = new ViewModelProvider(this).get(getViewModel());
             getLifecycle().addObserver(viewModel);
             if (isObserveChanged()) {
-                viewModel.getLiveData().observe(this, this);
                 viewModel.getDialogData().observe(this, this);
+                viewModel.getFragmentData().observe(this, this);
             }
         }
-    }
-
-    protected abstract Class<VM> getViewModel();
-
-    public boolean isObserveChanged() {
-        return true;
     }
 
     public DB dataBinding() {

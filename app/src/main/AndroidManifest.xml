@@ -12,16 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickMVVM">
-        <activity android:name=".view.activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.TestBindingActivity" />
-        <activity android:name=".view.activity.TestViewModelBindingActivity" />
-        <activity android:name=".view.activity.TestAdapterActivity" />
+        <activity android:name=".ui.activity.TestBindingActivity" />
+        <activity android:name=".ui.activity.TestViewModelBindingActivity" />
+        <activity android:name=".ui.activity.TestAdapterActivity" />
     </application>
 
 </manifest>

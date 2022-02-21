@@ -18,11 +18,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.lookballs.mvvm.action.BundleAction;
-import com.lookballs.mvvm.action.ClickAction;
-import com.lookballs.mvvm.action.HandlerAction;
-import com.lookballs.mvvm.action.KeyboardAction;
-import com.lookballs.mvvm.action.ResourcesAction;
+import com.lookballs.mvvm.AppInstance;
+import com.lookballs.mvvm.impl.action.BundleAction;
+import com.lookballs.mvvm.impl.action.ClickAction;
+import com.lookballs.mvvm.impl.action.HandlerAction;
+import com.lookballs.mvvm.impl.action.KeyboardAction;
+import com.lookballs.mvvm.impl.action.ResourcesAction;
+import com.lookballs.mvvm.impl.lifecycle.IActivityLifecycle;
+import com.lookballs.mvvm.impl.lifecycle.ILifecycleObserver;
 
 import java.util.List;
 import java.util.Random;
@@ -33,7 +36,6 @@ import java.util.Random;
  * 类描述：Activity基类
  */
 public abstract class BaseActivity extends AppCompatActivity implements ILifecycleObserver, HandlerAction, ClickAction, KeyboardAction, ResourcesAction, BundleAction {
-
     /**
      * 上下文对象
      */
@@ -54,13 +56,59 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
      */
     private SparseArray<OnActivityCallback> mActivityCallbacks;
 
+    /**
+     * 子类可以实现的自定义方法
+     */
+    public void initBefore(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    public void initContentView() {
+        setContentView(getLayoutId());
+    }
+
+    protected abstract int getLayoutId();
+
+    protected abstract void initView();
+
+    protected abstract void initData();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        initBefore();
+        initBefore(savedInstanceState);
         super.onCreate(savedInstanceState);
         initContentView();
         initView();
         initOther();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isShowing = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isShowing = false;
+        if (isFinishing()) {
+            destroyResources();
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        for (IActivityLifecycle callback : AppInstance.get().getActivityLifecycles()) {
+            callback.onRestart(getAct());
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        destroyResources();
     }
 
     @Override
@@ -81,44 +129,8 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
         });
     }
 
-    public void initBefore() {
-
-    }
-
-    public void initContentView() {
-        setContentView(getLayoutId());
-    }
-
-    protected abstract int getLayoutId();
-
-    protected abstract void initView();
-
-    protected abstract void initData();
-
     public FragmentActivity getAct() {
         return activity;
-    }
-
-    /**
-     * 页面是否显示
-     */
-    public boolean isShowing() {
-        return isShowing;
-    }
-
-    /**
-     * 根据资源 id 获取一个 View 对象
-     */
-    @Override
-    public <T extends View> T findViewById(int id) {
-        return super.findViewById(id);
-    }
-
-    /**
-     * 和setContentView对应的方法
-     */
-    public ViewGroup getContentView() {
-        return findViewById(Window.ID_ANDROID_CONTENT);
     }
 
     @Override
@@ -152,28 +164,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        isShowing = true;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        isShowing = false;
-        if (isFinishing()) {
-            destroy();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        isShowing = false;
-        destroy();
-    }
-
-    @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         for (Fragment fragment : fragments) {
@@ -189,6 +179,36 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
             }
         }
         return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
+        //隐藏软键，避免内存泄漏
+        hideKeyboard(getCurrentFocus());
+        //查看源码得知 startActivity 最终也会调用 startActivityForResult
+        super.startActivityForResult(intent, requestCode, options);
+    }
+
+    /**
+     * 页面是否显示
+     */
+    public boolean isShowing() {
+        return isShowing;
+    }
+
+    /**
+     * 根据资源 id 获取一个 View 对象
+     */
+    @Override
+    public <T extends View> T findViewById(int id) {
+        return super.findViewById(id);
+    }
+
+    /**
+     * 和setContentView对应的方法
+     */
+    public ViewGroup getContentView() {
+        return findViewById(Window.ID_ANDROID_CONTENT);
     }
 
     /**
@@ -211,24 +231,16 @@ public abstract class BaseActivity extends AppCompatActivity implements ILifecyc
     }
 
     /**
-     * 解决activity被finish后onDestroy()不立即执行问题
+     * 回收资源
      */
-    private void destroy() {
+    private void destroyResources() {
+        //解决activity被finish后onDestroy()不立即执行问题
         if (isDestroyed) {
             return;
         } else {
-            //回收资源
             isDestroyed = true;
             removeCallbacks();
         }
-    }
-
-    @Override
-    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        //隐藏软键，避免内存泄漏
-        hideKeyboard(getCurrentFocus());
-        //查看源码得知 startActivity 最终也会调用 startActivityForResult
-        super.startActivityForResult(intent, requestCode, options);
     }
 
     /**

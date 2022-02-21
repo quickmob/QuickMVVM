@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.lookballs.mvvm.impl.lifecycle.ILifecycleObserver;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,6 @@ import java.util.List;
  * 类描述：PopupWindow基类
  */
 public abstract class BasePopupWindow extends PopupWindow implements ILifecycleObserver, PopupWindow.OnDismissListener {
-
     /**
      * 缓存视图，如果视图已经创建，则不再初始化视图
      */
@@ -53,6 +54,20 @@ public abstract class BasePopupWindow extends PopupWindow implements ILifecycleO
      */
     private PopupBackground mPopupBackground;
 
+    /**
+     * 子类可以实现的自定义方法
+     */
+    public void initContentView() {
+        rootView = LayoutInflater.from(activity).inflate(getLayoutId(), null, false);
+        setContentView(rootView);
+    }
+
+    protected abstract int getLayoutId();
+
+    protected abstract void initView();
+
+    protected abstract void initData();
+
     public BasePopupWindow(FragmentActivity activity) {
         super(activity);
         if (activity != null) {
@@ -62,12 +77,12 @@ public abstract class BasePopupWindow extends PopupWindow implements ILifecycleO
             initContentView();
             initView();
 
-            initConfig();
+            initOther();
             initData();
         }
     }
 
-    private void initConfig() {
+    private void initOther() {
         setWidth(setWindowWidth());
         setHeight(setWindowHeight());
         //设置透明背景
@@ -84,17 +99,6 @@ public abstract class BasePopupWindow extends PopupWindow implements ILifecycleO
     public void setRootView(View view) {
         this.rootView = view;
     }
-
-    public void initContentView() {
-        rootView = LayoutInflater.from(activity).inflate(getLayoutId(), null, false);
-        setContentView(rootView);
-    }
-
-    protected abstract int getLayoutId();
-
-    protected abstract void initView();
-
-    protected abstract void initData();
 
     public FragmentActivity getAct() {
         return activity;

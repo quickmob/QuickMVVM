@@ -13,9 +13,17 @@ import com.lookballs.mvvm.core.BaseActivity;
  * 类描述：基于MVVM模式的Activity基类
  */
 public abstract class BaseBindingActivity<VM extends BaseViewModel, DB extends ViewDataBinding> extends BaseActivity implements Observer<Object> {
-
     private DB dataBinding;
     private VM viewModel;
+
+    /**
+     * 子类可以实现的自定义方法
+     */
+    protected abstract Class<VM> getViewModel();
+
+    public boolean isObserveChanged() {
+        return true;
+    }
 
     @Override
     public void initContentView() {
@@ -33,16 +41,10 @@ public abstract class BaseBindingActivity<VM extends BaseViewModel, DB extends V
             viewModel = new ViewModelProvider(this).get(getViewModel());
             getLifecycle().addObserver(viewModel);
             if (isObserveChanged()) {
-                viewModel.getLiveData().observe(this, this);
                 viewModel.getDialogData().observe(this, this);
+                viewModel.getActivityData().observe(this, this);
             }
         }
-    }
-
-    protected abstract Class<VM> getViewModel();
-
-    public boolean isObserveChanged() {
-        return true;
     }
 
     public DB dataBinding() {
