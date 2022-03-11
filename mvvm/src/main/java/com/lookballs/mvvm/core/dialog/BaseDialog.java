@@ -1,4 +1,4 @@
-package com.lookballs.mvvm.core;
+package com.lookballs.mvvm.core.dialog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

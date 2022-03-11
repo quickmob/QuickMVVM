@@ -10,10 +10,11 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.lookballs.app.mvvm.R;
 import com.lookballs.app.mvvm.base.AppBindingActivity;
-import com.lookballs.app.mvvm.ui.bean.ArticleJsonBean;
 import com.lookballs.app.mvvm.databinding.ActivityTestAdapterBinding;
-import com.lookballs.app.mvvm.ui.adapter.TestAdapter;
+import com.lookballs.app.mvvm.ui.adapter.TestMultiAdapter;
+import com.lookballs.app.mvvm.ui.bean.ArticleJsonBean;
 import com.lookballs.app.mvvm.ui.viewmodel.TestViewModel;
+import com.lookballs.mvvm.core.adapter.BaseBindingMultiItemBean;
 
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class TestAdapterActivity extends AppBindingActivity<TestViewModel, Activ
     private final int PAGE_SIZE = 20;
     private PageInfo pageInfo = new PageInfo();
 
-    private TestAdapter mAdapter;
+    //    private TestAdapter mAdapter;
+    private TestMultiAdapter mAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -65,7 +67,8 @@ public class TestAdapterActivity extends AppBindingActivity<TestViewModel, Activ
     }
 
     private void initAdapter() {
-        mAdapter = new TestAdapter(R.layout.item_article);
+//        mAdapter = new TestAdapter();
+        mAdapter = new TestMultiAdapter();
         mAdapter.setAnimationEnable(true);
         dataBinding().rvData.setAdapter(mAdapter);
     }
@@ -160,9 +163,16 @@ public class TestAdapterActivity extends AppBindingActivity<TestViewModel, Activ
         super.onClick(view);
         int id = view.getId();
         if (id == R.id.btn) {
-            List<ArticleJsonBean.DataBean.DatasBean> datasBeans = mAdapter.getData();
+//            List<ArticleJsonBean.DataBean.DatasBean> datasBeans = mAdapter.getData();
+//            if (datasBeans != null && datasBeans.size() > 0) {
+//                datasBeans.get(0).setLink("我是改变后的内容");
+//            }
+            List<BaseBindingMultiItemBean> datasBeans = mAdapter.getData();
             if (datasBeans != null && datasBeans.size() > 0) {
-                datasBeans.get(0).setLink("我是改变后的内容");
+                if (datasBeans.get(0) instanceof ArticleJsonBean.DataBean.DatasBean) {
+                    ArticleJsonBean.DataBean.DatasBean datasBean = (ArticleJsonBean.DataBean.DatasBean) datasBeans.get(0);
+                    datasBean.setLink("我是改变后的内容");
+                }
             }
         }
     }

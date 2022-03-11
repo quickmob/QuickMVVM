@@ -1,4 +1,4 @@
-package com.lookballs.mvvm.core.binding;
+package com.lookballs.mvvm.core.popup;
 
 import android.view.LayoutInflater;
 
@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.lookballs.mvvm.core.BasePopupWindow;
+import com.lookballs.mvvm.core.popup.BasePopupWindow;
 
 /**
  * 创建人：lucas

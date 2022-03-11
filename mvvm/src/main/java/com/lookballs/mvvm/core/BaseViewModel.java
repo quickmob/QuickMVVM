@@ -1,6 +1,7 @@
-package com.lookballs.mvvm.core.binding;
+package com.lookballs.mvvm.core;
 
 import androidx.annotation.Nullable;
+import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
@@ -14,16 +15,21 @@ import com.lookballs.mvvm.impl.lifecycle.ILifecycleObserver;
  * 类描述：ViewModel基类
  */
 public class BaseViewModel extends ViewModel implements ILifecycleObserver {
+    @Nullable
+    private LifecycleOwner mLifcycleOwner;
+    private ViewDataBinding mDataBinding;
+
     private MutableLiveData<Object> mDialogData = new MutableLiveData<>();//dialog专用
     private MutableLiveData<Object> mActivityData = new MutableLiveData<>();//activity专用
     private MutableLiveData<Object> mFragmentData = new MutableLiveData<>();//fragment专用
 
-    @Nullable
-    private LifecycleOwner mLifcycleOwner;
-
     @Override
     public void onLifecycleChanged(LifecycleOwner owner, Lifecycle.Event event) {
         this.mLifcycleOwner = owner;
+    }
+
+    public LifecycleOwner getLifecycleOwner() {
+        return mLifcycleOwner;
     }
 
     public MutableLiveData<Object> getDialogData() {
@@ -38,7 +44,16 @@ public class BaseViewModel extends ViewModel implements ILifecycleObserver {
         return mFragmentData;
     }
 
-    public LifecycleOwner getLifecycleOwner() {
-        return mLifcycleOwner;
+    public void setViewDataBinding(ViewDataBinding dataBinding) {
+        this.mDataBinding = dataBinding;
+    }
+
+    public ViewDataBinding getDataBinding() {
+        return mDataBinding;
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
     }
 }

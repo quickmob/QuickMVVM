@@ -4,7 +4,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.lookballs.app.mvvm.R;
 import com.lookballs.app.mvvm.databinding.DialogLoadingBinding;
-import com.lookballs.mvvm.core.binding.BaseBindingDialog;
+import com.lookballs.mvvm.core.dialog.BaseBindingDialog;
 
 public class LoadingDialog extends BaseBindingDialog<DialogLoadingBinding> {
 

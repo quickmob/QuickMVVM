@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.lookballs.app.mvvm.bean.BannerJsonBean" />
+            type="com.lookballs.app.mvvm.ui.bean.BannerJsonBean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

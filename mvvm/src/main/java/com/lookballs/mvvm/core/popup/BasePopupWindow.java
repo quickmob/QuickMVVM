@@ -1,4 +1,4 @@
-package com.lookballs.mvvm.core;
+package com.lookballs.mvvm.core.popup;
 
 import android.animation.ValueAnimator;
 import android.graphics.Color;

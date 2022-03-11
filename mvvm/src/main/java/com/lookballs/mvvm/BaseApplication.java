@@ -1,10 +1,8 @@
-package com.lookballs.mvvm.core;
+package com.lookballs.mvvm;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
-
-import com.lookballs.mvvm.AppInstance;
 
 /**
  * 创建人：lucas
@@ -20,7 +18,6 @@ public class BaseApplication extends Application {
 
     @Override
     public void onCreate() {
-        AppInstance.get().init(this);
         //程序创建的时候执行
         super.onCreate();
     }

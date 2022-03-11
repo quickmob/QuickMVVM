@@ -6,7 +6,7 @@ import android.widget.Toast;
 import com.lookballs.app.mvvm.R;
 import com.lookballs.app.mvvm.base.AppBindingFragment;
 import com.lookballs.app.mvvm.databinding.FragmentTestBindingBinding;
-import com.lookballs.mvvm.core.binding.BaseViewModel;
+import com.lookballs.mvvm.core.BaseViewModel;
 
 public class TestBindingFragment extends AppBindingFragment<BaseViewModel, FragmentTestBindingBinding> {
 

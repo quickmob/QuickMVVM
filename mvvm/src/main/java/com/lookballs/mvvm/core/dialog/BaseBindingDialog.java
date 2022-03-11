@@ -1,4 +1,4 @@
-package com.lookballs.mvvm.core.binding;
+package com.lookballs.mvvm.core.dialog;
 
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.lookballs.mvvm.core.BaseDialog;
+import com.lookballs.mvvm.core.dialog.BaseDialog;
 
 /**
  * 创建人：lucas

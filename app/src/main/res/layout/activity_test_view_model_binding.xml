@@ -5,7 +5,11 @@
 
         <variable
             name="data"
-            type="com.lookballs.app.mvvm.bean.BannerJsonBean" />
+            type="com.lookballs.app.mvvm.ui.bean.BannerJsonBean" />
+
+        <variable
+            name="viewModel"
+            type="com.lookballs.app.mvvm.ui.viewmodel.TestViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -25,6 +29,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
+            <LinearLayout
+                addBannerViews="@{viewModel.bannerJsonBean.data}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

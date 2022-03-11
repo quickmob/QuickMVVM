@@ -4,8 +4,8 @@ import androidx.databinding.ViewDataBinding;
 
 import com.lookballs.app.mvvm.constant.ViewModelConstant;
 import com.lookballs.app.mvvm.ui.dialog.LoadingDialog;
-import com.lookballs.mvvm.core.binding.BaseBindingFragment;
-import com.lookballs.mvvm.core.binding.BaseViewModel;
+import com.lookballs.mvvm.core.fragment.BaseBindingFragment;
+import com.lookballs.mvvm.core.BaseViewModel;
 
 /**
  * 创建人：lucas

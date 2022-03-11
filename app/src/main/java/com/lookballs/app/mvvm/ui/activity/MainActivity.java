@@ -7,7 +7,7 @@ import android.widget.Toast;
 import com.lookballs.app.mvvm.R;
 import com.lookballs.app.mvvm.ui.dialog.TestBindingDialog;
 import com.lookballs.app.mvvm.ui.popup.TestBindingPopupWindow;
-import com.lookballs.mvvm.core.BaseActivity;
+import com.lookballs.mvvm.core.activity.BaseActivity;
 
 public class MainActivity extends BaseActivity {
 

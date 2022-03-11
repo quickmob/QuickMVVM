@@ -1,16 +1,20 @@
 package com.lookballs.app.mvvm.ui.viewmodel;
 
-import com.lookballs.app.mvvm.ui.bean.ArticleJsonBean;
-import com.lookballs.app.mvvm.ui.bean.BannerJsonBean;
+import androidx.lifecycle.MutableLiveData;
+
 import com.lookballs.app.mvvm.constant.UrlConstant;
 import com.lookballs.app.mvvm.constant.ViewModelConstant;
+import com.lookballs.app.mvvm.ui.bean.ArticleJsonBean;
+import com.lookballs.app.mvvm.ui.bean.BannerJsonBean;
 import com.lookballs.http.QuickHttp;
 import com.lookballs.http.core.listener.OnHttpListener;
-import com.lookballs.mvvm.core.binding.BaseViewModel;
+import com.lookballs.mvvm.core.BaseViewModel;
 
 import okhttp3.Call;
 
 public class TestViewModel extends BaseViewModel {
+    public MutableLiveData<BannerJsonBean> bannerJsonBean = new MutableLiveData<>();
+
     public void getBanner() {//获取banner图数据
         QuickHttp.get(UrlConstant.Banner.banner_json)
                 .bindLife(getLifecycleOwner())
@@ -23,6 +27,8 @@ public class TestViewModel extends BaseViewModel {
                     @Override
                     public void onSucceed(BannerJsonBean result) {
                         getActivityData().setValue(result);
+                        //或者
+                        bannerJsonBean.setValue(result);
                     }
 
                     @Override

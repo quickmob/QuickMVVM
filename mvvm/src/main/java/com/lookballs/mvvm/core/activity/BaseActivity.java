@@ -1,4 +1,4 @@
-package com.lookballs.mvvm.core;
+package com.lookballs.mvvm.core.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +19,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.lookballs.mvvm.AppInstance;
+import com.lookballs.mvvm.core.fragment.BaseFragment;
 import com.lookballs.mvvm.impl.action.BundleAction;
 import com.lookballs.mvvm.impl.action.ClickAction;
 import com.lookballs.mvvm.impl.action.HandlerAction;

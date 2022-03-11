@@ -9,7 +9,7 @@ import com.lookballs.app.mvvm.ui.fragment.TestBindingFragment;
 import com.lookballs.app.mvvm.databinding.ActivityTestBindingBinding;
 import com.lookballs.app.mvvm.base.AppBindingActivity;
 import com.lookballs.app.mvvm.base.BaseFragmentPagerAdapter;
-import com.lookballs.mvvm.core.binding.BaseViewModel;
+import com.lookballs.mvvm.core.BaseViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

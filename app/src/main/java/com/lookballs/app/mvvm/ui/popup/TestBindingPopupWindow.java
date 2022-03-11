@@ -4,7 +4,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.lookballs.app.mvvm.R;
 import com.lookballs.app.mvvm.databinding.PopupwindowTestBindingBinding;
-import com.lookballs.mvvm.core.binding.BaseBindingPopupWindow;
+import com.lookballs.mvvm.core.popup.BaseBindingPopupWindow;
 
 public class TestBindingPopupWindow extends BaseBindingPopupWindow<PopupwindowTestBindingBinding> {
 

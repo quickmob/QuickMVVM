@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.lookballs.mvvm" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lookballs.mvvm">
+
+    <application>
+        <provider
+            android:name=".AppInitProvider"
+            android:authorities="${applicationId}.app.init.provider"
+            android:exported="false"
+            android:initOrder="999" />
+    </application>
+</manifest>

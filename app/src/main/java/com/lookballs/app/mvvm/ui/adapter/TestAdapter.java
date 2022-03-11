@@ -2,19 +2,18 @@ package com.lookballs.app.mvvm.ui.adapter;
 
 import androidx.annotation.NonNull;
 
-import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
-import com.lookballs.app.mvvm.BR;
-import com.lookballs.app.mvvm.ui.bean.ArticleJsonBean;
-import com.lookballs.app.mvvm.databinding.ItemArticleBinding;
-import com.lookballs.mvvm.core.binding.BaseBindingAdapter;
+import com.lookballs.app.mvvm.R;
+import com.lookballs.mvvm.core.adapter.BaseBindingAdapter;
+import com.lookballs.mvvm.core.adapter.BaseBindingHolder;
+import com.lookballs.mvvm.core.adapter.BaseBindingItemBean;
 
-public class TestAdapter extends BaseBindingAdapter<ArticleJsonBean.DataBean.DatasBean, ItemArticleBinding> {
-    public TestAdapter(int layoutResId) {
-        super(layoutResId, BR.data);
+public class TestAdapter extends BaseBindingAdapter {
+    public TestAdapter() {
+        super(R.layout.item_article);
     }
 
     @Override
-    protected void convert(@NonNull BaseDataBindingHolder<ItemArticleBinding> holder, ArticleJsonBean.DataBean.DatasBean dataBean) {
-        super.convert(holder, dataBean);
+    protected void newConvert(@NonNull BaseBindingHolder holder, BaseBindingItemBean itemBean) {
+        
     }
 }

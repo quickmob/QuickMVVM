@@ -1,11 +1,12 @@
-package com.lookballs.mvvm.core.binding;
+package com.lookballs.mvvm.core.activity;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.lookballs.mvvm.core.BaseActivity;
+import com.lookballs.mvvm.BR;
+import com.lookballs.mvvm.core.BaseViewModel;
 
 /**
  * 创建人：lucas
@@ -29,6 +30,7 @@ public abstract class BaseBindingActivity<VM extends BaseViewModel, DB extends V
     public void initContentView() {
         injectDataBinding();
         injectViewModel();
+        initVariable();
     }
 
     private void injectDataBinding() {
@@ -37,14 +39,17 @@ public abstract class BaseBindingActivity<VM extends BaseViewModel, DB extends V
     }
 
     private void injectViewModel() {
-        if (getViewModel() != null) {
-            viewModel = new ViewModelProvider(this).get(getViewModel());
-            getLifecycle().addObserver(viewModel);
-            if (isObserveChanged()) {
-                viewModel.getDialogData().observe(this, this);
-                viewModel.getActivityData().observe(this, this);
-            }
+        viewModel = new ViewModelProvider(this).get(getViewModel());
+        viewModel.setViewDataBinding(dataBinding);
+        getLifecycle().addObserver(viewModel);
+        if (isObserveChanged()) {
+            viewModel.getDialogData().observe(this, this);
+            viewModel.getActivityData().observe(this, this);
         }
+    }
+
+    private void initVariable() {
+        dataBinding.setVariable(BR.viewModel, viewModel);
     }
 
     public DB dataBinding() {
