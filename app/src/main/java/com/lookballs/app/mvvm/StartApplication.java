@@ -15,7 +15,7 @@ import com.lookballs.http.HttpConfig;
 import com.lookballs.http.QuickHttp;
 import com.lookballs.http.core.listener.OnRetryConditionListener;
 import com.lookballs.mvvm.AppInstance;
-import com.lookballs.mvvm.BaseApplication;
+import com.lookballs.mvvm.core.BaseApplication;
 import com.lookballs.mvvm.impl.lifecycle.IActivityLifecycle;
 import com.lookballs.mvvm.impl.lifecycle.IFragmentLifecycle;
 

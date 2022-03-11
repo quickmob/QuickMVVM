@@ -12,7 +12,7 @@ import com.lookballs.app.mvvm.databinding.ItemBannerBinding;
 
 import java.util.List;
 
-public class BindData {
+public class BindingData {
     @BindingAdapter(value = {"addBannerViews"})
     public static void addBannerViews(ViewGroup viewGroup, List<BannerJsonBean.DataBean> list) {
         viewGroup.removeAllViews();

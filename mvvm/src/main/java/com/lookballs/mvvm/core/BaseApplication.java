@@ -1,4 +1,4 @@
-package com.lookballs.mvvm;
+package com.lookballs.mvvm.core;
 
 import android.app.Application;
 import android.content.Context;

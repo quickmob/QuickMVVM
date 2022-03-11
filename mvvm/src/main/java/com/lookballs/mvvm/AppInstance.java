@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * 创建人：lucas
  * 创建时间：2022/2/16 16:55
- * 类描述：管理提供的一些框架必须的实例
+ * 类描述：管理一些框架必须的实例
  */
 public class AppInstance {
     private volatile static AppInstance instance = null;

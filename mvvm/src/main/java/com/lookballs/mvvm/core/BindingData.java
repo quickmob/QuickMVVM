@@ -1,4 +1,4 @@
-package com.lookballs.mvvm;
+package com.lookballs.mvvm.core;
 
 import android.text.TextUtils;
 import android.view.View;
@@ -11,7 +11,7 @@ import androidx.databinding.BindingAdapter;
  * 创建时间：2021/5/15 11:06
  * 类描述：BindingAdapter基础类
  */
-public class BindData {
+public class BindingData {
     @BindingAdapter(value = {"isVisibility"})
     public static void setVisibility(View view, boolean isVisibility) {
         view.setVisibility(isVisibility ? View.VISIBLE : View.INVISIBLE);
